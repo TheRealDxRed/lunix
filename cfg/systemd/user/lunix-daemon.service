@@ -1,0 +1,11 @@
+[Unit]
+Description=Lunix Daemon
+
+[Service]
+Type=simple
+WorkingDirectory=/home/%u/lunix
+ExecStart=/home/%u/lunix/bin/daemon.lua
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

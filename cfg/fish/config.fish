@@ -1,0 +1,14 @@
+# envvars
+set -x LUA_PATH "$HOME/lunix/lua/?.lua;$HOME/lunix/lua/?/init.lua;"(luarocks path --lr-path --full)
+set -x LUA_CPATH (luarocks path --lr-cpath --full)
+set -x PATH $HOME/.local/bin:$PATH
+
+# commands
+alias ff "fastfetch"
+
+if status is-interactive
+  # Commands to run in interactive sessions can go here
+  
+  # Show fastfetch results when opening a terminal
+  fastfetch
+end
