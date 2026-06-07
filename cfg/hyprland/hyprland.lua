@@ -30,7 +30,8 @@ hl.monitor({
 -- Set programs that you use
 local terminal = "kitty"
 local fileManager = "dolphin"
-local menu = "hyprlauncher"
+local menu = "wofi --show run"
+local app_menu = "wofi --show drun"
 
 
 -------------------
@@ -42,11 +43,11 @@ local menu = "hyprlauncher"
 -- Autostart necessary processes (like notifications daemons, status bars, etc.)
 -- Or execute your favorite apps at launch like this:
 --
--- hl.on("hyprland.start", function () 
+hl.on("hyprland.start", function () 
 --   hl.exec_cmd(terminal)
 --   hl.exec_cmd("nm-applet")
---   hl.exec_cmd("waybar & hyprpaper & firefox")
--- end)
+  hl.exec_cmd("waybar")
+end)
 
 
 -------------------------------
@@ -55,8 +56,9 @@ local menu = "hyprlauncher"
 
 -- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Environment-variables/
 
-hl.env("XCURSOR_SIZE", "24")
-hl.env("HYPRCURSOR_SIZE", "24")
+hl.env("XCURSOR_SIZE", "16")
+hl.env("HYPRCURSOR_SIZE", "16")
+hl.env("ELECTRON_OZONE_PLATFORM_HINT", "wayland")
 
 
 -----------------------
@@ -85,14 +87,14 @@ hl.env("HYPRCURSOR_SIZE", "24")
 -- Refer to https://wiki.hypr.land/Configuring/Basics/Variables/
 hl.config({
   general = {
-    gaps_in = 2,
-    gaps_out = 10,
+    gaps_in = 1,
+    gaps_out = 2,
 
-    border_size = 2,
+    border_size = 1,
 
     col = {
-      active_border = { colors = {"rgba(33ccffee)", "rgba(00ff99ee)"}, angle = 45 },
-      inactive_border = "rgba(595959aa)",
+      active_border = { colors = {"rgba(f06292ee)", "rgba(b55088ee)"}, angle = 45 },
+      inactive_border = "rgba(262b44aa)",
     },
 
     -- Set to true to enable resizing windows by clicking and dragging on borders and gaps
@@ -110,7 +112,7 @@ hl.config({
 
     -- Change transparency of focused and unfocused windows
     active_opacity = 0.95,
-    inactive_opacity = 0.75,
+    inactive_opacity = 0.9,
 
     shadow = {
       enabled = true,
@@ -241,10 +243,10 @@ hl.gesture({
 
 -- Example per-device config
 -- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Devices/ for more
-hl.device({
-  name = "epic-mouse-v1",
-  sensitivity = -0.5,
-})
+--hl.device({
+--  name = "epic-mouse-v1",
+--  sensitivity = -0.5,
+--})
 
 
 ---------------------
@@ -254,28 +256,56 @@ hl.device({
 local mainMod = "SUPER" -- Sets "Windows" key as main modifier
 
 -- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
-hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(terminal))
-local closeWindowBind = hl.bind(mainMod .. " + C", hl.dsp.window.close())
+hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(terminal))
+local closeWindowBind = hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 -- closeWindowBind:set_enabled(false)
-hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
-hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
-hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
+--hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
+--hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
+hl.bind(mainMod .. " + F", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
+hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd(app_menu))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
-hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))  -- dwindle only
+--hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))  -- dwindle only
 
 -- Move focus with mainMod + arrow keys
-hl.bind(mainMod .. " + left", hl.dsp.focus({ direction = "left" }))
-hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
-hl.bind(mainMod .. " + up", hl.dsp.focus({ direction = "up" }))
-hl.bind(mainMod .. " + down", hl.dsp.focus({ direction = "down" }))
+hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "left" }))
+hl.bind(mainMod .. " + J", hl.dsp.focus({ direction = "down" }))
+hl.bind(mainMod .. " + K", hl.dsp.focus({ direction = "up" }))
+hl.bind(mainMod .. " + L", hl.dsp.focus({ direction = "right" }))
 
 -- Switch workspaces with mainMod + [0-9]
 -- Move active window to a workspace with mainMod + SHIFT + [0-9]
-for i = 1, 10 do
+
+local waybar_open = true
+
+local function switchWorkspace(n)
+  if n == 2 then
+    -- programming workspace, disable distractions
+    hl.exec_cmd("killall waybar")
+    waybar_open = false
+  elseif not waybar_open then
+    hl.exec_cmd("waybar")
+    waybar_open = true
+  end
+  hl.dispatch(hl.dsp.focus({ workspace = n }))
+end
+
+local function moveToWorkspace(n)
+  if n == 2 then
+    -- programming workspace, disable distractions
+    hl.exec_cmd("killall waybar")
+    waybar_open = false
+  elseif not waybar_open then
+    hl.exec_cmd("waybar")
+    waybar_open = true
+  end
+  hl.dispatch(hl.dsp.window.move({ workspace = n }))
+end
+
+for i = 1, 4 do
   local key = i % 10 -- 10 maps to key 0
-  hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i}))
-  hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
+  hl.bind(mainMod .. " + " .. key, function() switchWorkspace(i) end)
+  hl.bind(mainMod .. " + SHIFT + " .. key, function() moveToWorkspace(i) end)
 end
 
 -- Example special workspace (scratchpad)
