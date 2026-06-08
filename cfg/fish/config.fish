@@ -5,6 +5,7 @@ set -x PATH $HOME/.local/bin:$PATH
 
 # commands
 alias ff "fastfetch"
+alias lg "lazygit"
 
 if status is-interactive
   # Commands to run in interactive sessions can go here
