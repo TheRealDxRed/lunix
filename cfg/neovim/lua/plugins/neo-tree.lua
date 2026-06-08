@@ -14,6 +14,7 @@ return {
     },
 
     window = {
+      width = 30,
       mappings = {
         ["<S-CR>"] = "system_open",
         ["[b"] = "prev_source",
@@ -22,6 +23,7 @@ return {
         ["Y"] = "copy_selector",
         ["h"] = "parent_or_close",
         ["l"] = "child_or_open",
+        ["<leader>p"] = "image_preview",
       },
     },
 
@@ -95,7 +97,14 @@ return {
             vim.fn.setreg("+", result)
           end
         end)
-      end
+      end,
+
+      image_preview = function(state)
+        local node = state.tree:get_node()
+        if node.type == "file" then
+          require("image_preview").PreviewImage(node.path)
+        end
+      end,
     },
   },
 }

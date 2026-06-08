@@ -496,6 +496,44 @@ local keymaps = {
     mode = "n",
     desc = "LSP",
   },
+
+  -- clipboard
+  {
+    "<leader>yy",
+    "\"+y",
+    mode = "n",
+    desc = "Copy line to system clipboard",
+  },
+  {
+    "<leader>y",
+    "\"+y",
+    mode = "x",
+    desc = "Copy to system clipboard",
+  },
+  {
+    "<leader>p",
+    "\"+p",
+    mode = "n",
+    desc = "Paste from system clipboard",
+  },
+  {
+    "<leader>p",
+    "\"+p",
+    mode = "x",
+    desc = "Paste from system clipboard",
+  },
+  {
+    "<leader>P",
+    "\"+P",
+    mode = "n",
+    desc = "Paste from system clipboard (before cursor)",
+  },
+  {
+    "<leader>P",
+    "\"+P",
+    mode = "x",
+    desc = "Paste from system clipboard (before cursor)",
+  },
 }
 
 for _, map in pairs(keymaps) do
