@@ -412,13 +412,13 @@ local keymaps = {
   -- terminal/git
   {
     "<leader>gg",
-    "<cmd>TermExec cmd='lazygit' direction=float<cr>",
+    "<cmd>TermExec cmd='lazygit && exit' direction=float<cr>",
     mode = "n",
     desc = "ToggleTerm lazygit",
   },
   {
     "<leader>tl",
-    "<cmd>TermExec cmd='lazygit' direction=float<cr>",
+    "<cmd>TermExec cmd='lazygit && exit' direction=float<cr>",
     mode = "n",
     desc = "ToggleTerm lazygit",
   },
