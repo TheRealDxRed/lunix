@@ -18,7 +18,7 @@ vim.o.cmdheight = 1
 --vim.lsp.codelens.enable(false)
 
 --[ AUTOCMDS ]--
-vim.api.nvim_create_autocmd({ "FileType" }, {
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
   desc = "Markdown work wrap",
   pattern = { "*.md" },
   callback = function(_)

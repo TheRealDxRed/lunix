@@ -1,15 +1,17 @@
 window {
   margin: 5px;
-  border: 2px solid #262b44;
-  background-color: #181425;
+  /* border: 2px solid #3c4048; */
+  background-color: #16181a;
+  color: #ffffff;
 }
 
 #input {
   margin: 5px;
-  border: 2px solid #b55088;
-  background-color: #262b44;
+  border: 2px solid #ffbd5e;
+  background-color: #3c4048;
 }
 
 #entry:selected {
-  background-color: #66b2b2;
+  background-color: #5ef1ff;
+  color: #16181a;
 }

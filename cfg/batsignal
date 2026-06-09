@@ -1,0 +1,31 @@
+#-b
+-e
+
+# Poll every 5 seconds
+-m
++5
+
+# Charge/discharge messages
+-p
+-P
+Charging
+-U
+Discharging
+
+# Warning at 25
+-w
+25
+-W
+Warning
+
+# Critical at 20
+-c
+20
+-C
+Critical
+
+# Danger at 15
+-d
+15
+-D
+Danger

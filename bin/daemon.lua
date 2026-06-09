@@ -38,7 +38,6 @@ local function run()
     local args = break_event(event)
 
     if args[1]:find("mod/") then
-
       local module_name = args[3]:match("(%w+).lua")
 
       print("Module file '" .. module_name .. "' modified. Reloading ")
@@ -48,8 +47,8 @@ local function run()
 
       print("New module pointer: " .. tostring(modules[module_name]))
     elseif args[1]:find("cfg/") then
-      local module_name = args[1]:match("./cfg/(%w+)/")
-  
+      local module_name = args[1]:match("./cfg/(%w+)")
+
       if modules[module_name] ~= nil and type(modules[module_name].reload) == "function" then
         print("Configuration file for module '" .. module_name .. "' modified. Reloading")
         modules[module_name].reload()

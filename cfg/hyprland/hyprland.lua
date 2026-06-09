@@ -55,8 +55,9 @@ end)
 
 -- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Environment-variables/
 
-hl.env("XCURSOR_SIZE", "16")
-hl.env("HYPRCURSOR_SIZE", "16")
+hl.env("XCURSOR_SIZE", "24")
+hl.env("HYPRCURSOR_SIZE", "24")
+hl.env("HYPRCURSOR_THEME", "Future-Cyan")
 hl.env("ELECTRON_OZONE_PLATFORM_HINT", "wayland")
 
 
@@ -206,8 +207,8 @@ hl.config({
 
 hl.config({
   misc = {
-    force_default_wallpaper = -1,  -- Set to 0 or 1 to disable the anime mascot wallpapers
-    disable_hyprland_logo = false, -- If true disables the random hyprland logo / anime girl background. :(
+    force_default_wallpaper = 0,  -- Set to 0 or 1 to disable the anime mascot wallpapers
+    disable_hyprland_logo = true, -- If true disables the random hyprland logo / anime girl background. :(
   },
 })
 
@@ -361,6 +362,9 @@ hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = tr
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 
+hl.bind(mainMod .. " + BackSpace", hl.dsp.exec_cmd("makoctl dismiss"), { locked = true })
+hl.bind(mainMod .. " + SHIFT + BackSpace", hl.dsp.exec_cmd("makoctl dismiss -a"), { locked = true })
+
 
 --------------------------------
 ---- WINDOWS AND WORKSPACES ----
@@ -371,14 +375,13 @@ hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true 
 
 -- Example window rules that are useful
 
-local suppressMaximizeRule = hl.window_rule({
+hl.window_rule({
   -- Ignore maximize requests from all apps. You'll probably like this.
   name           = "suppress-maximize-events",
   match          = { class = ".*" },
 
   suppress_event = "maximize",
 })
--- suppressMaximizeRule:set_enabled(false)
 
 hl.window_rule({
   -- Fix some dragging issues with XWayland

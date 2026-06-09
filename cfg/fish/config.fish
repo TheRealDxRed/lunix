@@ -3,6 +3,8 @@ set -x LUA_PATH "$HOME/lunix/lua/?.lua;$HOME/lunix/lua/?/init.lua;"(luarocks pat
 set -x LUA_CPATH (luarocks path --lr-cpath --full)
 set -x PATH $HOME/.local/bin:$PATH
 
+set -U fish_greeting ""
+
 # commands
 alias ff "fastfetch"
 alias lg "lazygit"
