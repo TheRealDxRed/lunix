@@ -8,6 +8,8 @@ return {
   },
   lazy = false,
   opts = {
+    close_if_last_window = true,
+
     source_selector = {
       winbar = true,
       content_layout = "center",

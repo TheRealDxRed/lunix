@@ -39,11 +39,19 @@ return {
         end,
         "fallback",
       },
+      ["<CR>"] = { "accept", "fallback" },
     },
 
     completion = {
       documentation = {
         auto_show = true
+      },
+
+      list = {
+        selection = {
+          preselect = false,
+          auto_insert = true,
+        },
       },
     },
   },
