@@ -6,6 +6,10 @@ set -x PATH $HOME/.local/bin:$PATH
 
 set -U fish_greeting ""
 
+if [ -f $HOME/lunix/cfg/fish/api-keys.fish ]
+  source $HOME/lunix/cfg/fish/api-keys.fish
+end
+
 # commands
 alias ff "fastfetch"
 alias lg "lazygit"
