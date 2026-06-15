@@ -56,7 +56,8 @@ end)
 -- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Environment-variables/
 
 hl.env("XCURSOR_SIZE", "24")
-hl.env("HYPRCURSOR_SIZE", "24")
+hl.env("XCURSOR_THEME", "Future-Cyan")
+hl.env("HYPRCURSOR_SIZE", "32")
 hl.env("HYPRCURSOR_THEME", "Future-Cyan")
 hl.env("ELECTRON_OZONE_PLATFORM_HINT", "wayland")
 
@@ -131,6 +132,10 @@ hl.config({
 
   animations = {
     enabled = true,
+  },
+
+  xwayland = {
+    force_zero_scaling = true,
   },
 })
 
@@ -309,8 +314,8 @@ for i = 1, 4 do
 end
 
 -- Example special workspace (scratchpad)
-hl.bind(mainMod .. " + S", hl.dsp.workspace.toggle_special("magic"))
-hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
+hl.bind(mainMod .. " + M", hl.dsp.workspace.toggle_special("magic"))
+hl.bind(mainMod .. " + SHIFT + M", hl.dsp.window.move({ workspace = "special:magic" }))
 
 -- Scroll through existing workspaces with mainMod + scroll
 hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
@@ -323,22 +328,22 @@ hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 -- Laptop multimedia keys for volume and LCD brightness
 hl.bind(
   "XF86AudioRaiseVolume",
-  hl.dsp.exec_cmd("pactl -- set-sink-volume @DEFAULT_SINK@ 5%+"),
+  hl.dsp.exec_cmd("pactl -- set-sink-volume @DEFAULT_SINK@ +5%"),
   { locked = true, repeating = true }
 )
 hl.bind(
   "XF86AudioLowerVolume",
-  hl.dsp.exec_cmd("pactl -- set-sink-volume @DEFAULT_SINK@ 5%-"),
+  hl.dsp.exec_cmd("pactl -- set-sink-volume @DEFAULT_SINK@ -5%"),
   { locked = true, repeating = true }
 )
 hl.bind(
   "SHIFT + XF86AudioRaiseVolume",
-  hl.dsp.exec_cmd("pactl -- set-sink-volume @DEFAULT_SINK@ 1%+"),
+  hl.dsp.exec_cmd("pactl -- set-sink-volume @DEFAULT_SINK@ +1%"),
   { locked = true, repeating = true }
 )
 hl.bind(
   "SHIFT + XF86AudioLowerVolume",
-  hl.dsp.exec_cmd("pactl -- set-sink-volume @DEFAULT_SINK@ 1%-"),
+  hl.dsp.exec_cmd("pactl -- set-sink-volume @DEFAULT_SINK@ -1%"),
   { locked = true, repeating = true }
 )
 hl.bind(
@@ -418,5 +423,15 @@ hl.window_rule({
   match = { class = "hyprland-run" },
 
   move  = "20 monitor_h-120",
+  float = true,
+})
+
+hl.window_rule({
+  name  = "float-manim-windows",
+  match = {
+    class = "ModernGL",
+    -- xwayland = true,
+  },
+
   float = true,
 })
