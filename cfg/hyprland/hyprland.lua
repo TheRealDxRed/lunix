@@ -43,9 +43,11 @@ local app_menu = "wofi --show drun"
 -- Or execute your favorite apps at launch like this:
 --
 hl.on("hyprland.start", function()
-  --   hl.exec_cmd(terminal)
-  --   hl.exec_cmd("nm-applet")
+  hl.exec_cmd("hyprlock")
+  hl.exec_cmd("awww-daemon")
+  hl.exec_cmd("$HOME/lunix/cfg/awww/cycle_random_wallpapers.fish")
   hl.exec_cmd("waybar")
+  -- hl.exec_cmd("systemctl --user start hyprpaper")
 end)
 
 
@@ -312,6 +314,9 @@ for i = 1, 4 do
   hl.bind(mainMod .. " + " .. key, function() switchWorkspace(i) end)
   hl.bind(mainMod .. " + SHIFT + " .. key, function() moveToWorkspace(i) end)
 end
+
+hl.bind(mainMod .. " + SHIFT + L", hl.dsp.exec_cmd("loginctl lock-session"), { locked = true })
+hl.bind("switch:on:Lid Switch", hl.dsp.exec_cmd("loginctl lock-session"), { locked = true })
 
 -- Example special workspace (scratchpad)
 hl.bind(mainMod .. " + M", hl.dsp.workspace.toggle_special("magic"))
