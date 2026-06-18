@@ -1,4 +1,5 @@
 # envvars
+set -x TMPDIR "/tmp"
 set -x HYPRSHOT_DIR "$HOME/screenshots"
 set -x LUA_PATH "$HOME/lunix/lua/?.lua;$HOME/lunix/lua/?/init.lua;"(luarocks path --lr-path --full)
 set -x LUA_CPATH (luarocks path --lr-cpath --full)

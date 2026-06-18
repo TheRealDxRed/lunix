@@ -1,3 +1,5 @@
+local util = require "util"
+
 -- This is an example Hyprland Lua config file.
 -- Refer to the wiki for more information.
 -- https://wiki.hypr.land/Configuring/Start/
@@ -47,7 +49,6 @@ hl.on("hyprland.start", function()
   hl.exec_cmd("awww-daemon")
   hl.exec_cmd("$HOME/lunix/cfg/awww/cycle_random_wallpapers.fish")
   hl.exec_cmd("waybar")
-  -- hl.exec_cmd("systemctl --user start hyprpaper")
 end)
 
 
@@ -57,6 +58,7 @@ end)
 
 -- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Environment-variables/
 
+-- FIXME: XWayland only *sometimes* uses the Future-Cyan cursor.
 hl.env("XCURSOR_SIZE", "24")
 hl.env("XCURSOR_THEME", "Future-Cyan")
 hl.env("HYPRCURSOR_SIZE", "32")
@@ -283,44 +285,19 @@ hl.bind(mainMod .. " + L", hl.dsp.focus({ direction = "right" }))
 -- Switch workspaces with mainMod + [0-9]
 -- Move active window to a workspace with mainMod + SHIFT + [0-9]
 
-local waybar_open = true
-
-local function switchWorkspace(n)
-  if n == 2 then
-    -- programming workspace, disable distractions
-    hl.exec_cmd("killall waybar")
-    waybar_open = false
-  elseif not waybar_open then
-    hl.exec_cmd("waybar")
-    waybar_open = true
-  end
-  hl.dispatch(hl.dsp.focus({ workspace = n }))
-end
-
-local function moveToWorkspace(n)
-  if n == 2 then
-    -- programming workspace, disable distractions
-    hl.exec_cmd("killall waybar")
-    waybar_open = false
-  elseif not waybar_open then
-    hl.exec_cmd("waybar")
-    waybar_open = true
-  end
-  hl.dispatch(hl.dsp.window.move({ workspace = n }))
-end
-
 for i = 1, 4 do
   local key = i % 10 -- 10 maps to key 0
-  hl.bind(mainMod .. " + " .. key, function() switchWorkspace(i) end)
-  hl.bind(mainMod .. " + SHIFT + " .. key, function() moveToWorkspace(i) end)
+
+  hl.bind(mainMod .. " + " .. key, util.switch_workspace(key))
+  hl.bind(mainMod .. " + SHIFT + " .. key, util.switch_workspace(key, true))
 end
 
 hl.bind(mainMod .. " + SHIFT + L", hl.dsp.exec_cmd("loginctl lock-session"), { locked = true })
 hl.bind("switch:on:Lid Switch", hl.dsp.exec_cmd("loginctl lock-session"), { locked = true })
 
--- Example special workspace (scratchpad)
-hl.bind(mainMod .. " + M", hl.dsp.workspace.toggle_special("magic"))
-hl.bind(mainMod .. " + SHIFT + M", hl.dsp.window.move({ workspace = "special:magic" }))
+-- Dev workspace
+hl.bind(mainMod .. " + grave", util.switch_workspace("special"))
+hl.bind(mainMod .. " + SHIFT + grave", util.switch_workspace("special", true))
 
 -- Scroll through existing workspaces with mainMod + scroll
 hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
