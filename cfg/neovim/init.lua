@@ -14,14 +14,35 @@ vim.o.wrap = false
 vim.o.conceallevel = 2
 vim.o.cmdheight = 1
 
--- disable codelens until i can fix those damn phantom lines
---vim.lsp.codelens.enable(false)
+--[ FILETYPES ]--
+vim.filetype.add({ extension = { wgsl = "wgsl", wesl = "wesl" } })
 
 --[ AUTOCMDS ]--
+
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+  desc = "WGSL file type",
+  pattern = { "*.wgsl" },
+  callback = function(_) vim.treesitter.start() end,
+})
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+  desc = "WESL file type",
+  pattern = { "*.wesl" },
+  callback = function(_) vim.treesitter.start() end,
+})
+
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
   desc = "Markdown work wrap",
   pattern = { "*.md" },
   callback = function(_)
     vim.opt_local.wrap = true
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+  desc = "CSharp editor settings",
+  pattern = { "*.cs" },
+  callback = function(_)
+    vim.opt_local.tabstop = 4
+    vim.opt_local.shiftwidth = 4
   end,
 })

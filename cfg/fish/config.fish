@@ -3,7 +3,7 @@ set -x TMPDIR "/tmp"
 set -x HYPRSHOT_DIR "$HOME/screenshots"
 set -x LUA_PATH "$HOME/lunix/lua/?.lua;$HOME/lunix/lua/?/init.lua;"(luarocks path --lr-path --full)
 set -x LUA_CPATH (luarocks path --lr-cpath --full)
-set -x PATH $HOME/.local/bin:$PATH
+set -x PATH $HOME/.local/bin:$HOME/.dotnet/tools:$HOME/.cargo/bin:$PATH
 
 set -U fish_greeting ""
 
